@@ -1,0 +1,25 @@
+{
+  "name": "committogether-backend",
+  "version": "1.0.0",
+  "description": "developers join the platform to connect together",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "backend",
+    "commit",
+    "together",
+    "connections",
+    "friendship",
+    "developers"
+  ],
+  "author": "Omeshwar Chowdhury",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
