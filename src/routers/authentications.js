@@ -15,14 +15,16 @@ authRouters.post("/signup", async (request, response) => {
         //validate the signup data
         validateSignupData(request);
         //encrypt password
-        const { firstName, lastName, email, skills, age, photoUrl, gender, about, password } = request.body
+        const { firstName, lastName, email, password } = request.body
         const passwordHash = await bcrypt.hash(password, 11)
         const user = new User({
-            firstName, lastName, email, skills, age, photoUrl, gender, about,
+            firstName, lastName, email,
             password: passwordHash
         })
-        await user.save()
-        response.send("User added successfully")
+        const savedUser = await user.save()
+        const token = await savedUser.getJWT();
+        response.cookie("token", token)
+        response.json({ message: "User Signed Up Successfully", data: savedUser })
     } catch (error) {
         response.status(400).send("Error saving the user: " + error.message)
     }
