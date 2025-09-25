@@ -5,7 +5,10 @@ const cors = require("cors")
 
 const app = express()
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173",          // Dev frontend
+        "https://committogether.info",    // Prod frontend
+        "https://www.committogether.info"
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 }));
@@ -17,6 +20,9 @@ const profileRouter = require("./routers/profile")
 const requestRouter = require("./routers/request")
 const userRouter = require("./routers/userRouter")
 
+app.get("/", (req, res) => {
+    res.send("✅ API is running on committogether.info");
+});
 app.use("/", authRouters)
 app.use("/", profileRouter)
 app.use("/", requestRouter)
