@@ -2,6 +2,7 @@ const express = require("express");
 const userAuth = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest")
 const User = require("../models/user")
+const run = require("../utils/send_email")
 
 const requestRouter = express.Router();
 
@@ -40,11 +41,19 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (request, 
         });
         const data = await connectionRequest.save();
 
+        if (status === "interested") {
+            const subject = "Connection Request Received"
+            const body = `${request.user.firstName} had shown interest to ${toUser.firstName}`
+            const emailResponse = await run(subject, body);
+        }
+
+        // console.log(emailResponse);
+
         response.json({
             message: `${request.user.firstName} ${status} ${toUser.firstName}`,
             data
-        }
-        )
+        })
+
     } catch (error) {
         response.status(400).send("ERROR: " + error.message)
     }
